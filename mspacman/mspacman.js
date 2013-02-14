@@ -13,7 +13,7 @@
 
 		ctx.drawImage(bg,0,80,20,20,4,4,20,20);
 		
-		ctx.drawImage(bg,0,40,20,20,4,20,20,20);
+		ctx.drawImage(bg,80,40,20,20,4,20,20,20);
 		
 	       }
 	       else {
