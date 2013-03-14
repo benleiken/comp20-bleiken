@@ -4,28 +4,41 @@
 <html>
 
 <head>
-<script>
-function post(){
-html = "<p>"
-document.getElementById('status').insertAdjacentHTML ("afterBegin", html);
-var txtNode = document.createTextNode(document.getElementById("msg").value);
-document.getElementById('status').insertBefore(txtNode,document.getElementById('status').firstChild);
-var d = new Date();
-var month = d.getMonth() +1; 
-var day =  d.getDate();
-var year =  d.getFullYear();
-var hour =   d.getHours();
-var minutes = d.getMinutes();
-var slash = "/";
-var colon = ":";
-var space = " ";
-var hyphen = "-";
-var dateString = space.concat(month,slash,day,slash,year,space,hour,colon,minutes,space,hyphen,space);
-var dateNode = document.createTextNode(dateString);
-document.getElementById('status').insertBefore(dateNode, document.getElementById('status').firstChild);
-
-
-}
+  <script>
+function reload()
+	{
+		elem = document.getElementById("status");
+		output = "";
+		for (key in localStorage) {
+                  html = "<p>"
+                  document.getElementById('status').insertAdjacentHTML ("afterBegin", html);
+                  output =  localStorage[key];
+                  var txtNode = document.createTextNode(output);
+                  document.getElementById('status').insertBefore(txtNode,elem.firstChild);
+		}
+	}
+	function post()
+	{
+		txt = document.getElementById("msg").value;
+                var d = new Date();
+                var month = d.getMonth() +1; 
+                var day =  d.getDate();
+                var year =  d.getFullYear();
+                var hour =   d.getHours();
+                var minutes = d.getMinutes();
+                var slash = "/";
+                var colon = ":";
+                var space = " ";
+                var hyphen = "-";
+                var dateString = space.concat(month,slash,day,slash,year,space,hour,colon,minutes,space,hyphen,space);
+                localStorage[new Date().getTime()] = dateString + " " + txt;
+                elem = document.getElementById("status");
+		output =  dateString + " " + txt;
+                  html = "<p>"
+                  document.getElementById('status').insertAdjacentHTML ("afterBegin", html);
+                  var txtNode = document.createTextNode(output);
+                  document.getElementById('status').insertBefore(txtNode,elem.firstChild);
+	}
 
 </script>
 <title>Fecesbook</title>
@@ -33,7 +46,7 @@ document.getElementById('status').insertBefore(dateNode, document.getElementById
 
 </head>
 
-<body>
+<body onload="reload()">
 	<h1>Fecebook</h1>
 	<div id="nav">
 		<ul>
