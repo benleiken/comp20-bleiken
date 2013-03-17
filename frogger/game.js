@@ -8,22 +8,27 @@ var fCount = 0;
 var frogDir = 1;
 var farthest = 490;
 var frogsHome = 0;
+//Dead Frogger
 var dead = false;
 var dX = 0;
 var dY = 0;
 var dCount = 0;
+//Frogger home?
 var isHome = false;
+//Sounds
 var jump = document.createElement('audio');
 jump.setAttribute('src', 'assets/LOZ_Hit.wav');
 jump.load();
+
 var death = document.createElement('audio');
 death.setAttribute('src', 'assets/LOZ_Bomb_Blow.wav');
 death.load();
+
 var home = document.createElement('audio');
 home.setAttribute('src', 'assets/LOZ_Fanfare.wav');
 home.load();
 
-
+//Setting up the obstacles
 locsVX = new Array();//Locations of vehicles
 locsVY = new Array();//Locations of vehicles
 locsLX = new Array();//Locations of logs
@@ -66,11 +71,15 @@ for(x = 0; x < 10; x++){
   rand = Math.floor(Math.random()*3);
   lId[x] = rand;
 }
+
+//Speeds
 var sV = 3;
 var sL = 2;
+
+//Scoring
 var score = 0;
 var hs = 0;
-var x = 0;
+//Images
 var bg = new Image();
 var loaded = false;
 bg.src = 'assets/frogger_sprites.png';
@@ -90,11 +99,11 @@ function start_game(){
           setInterval(document.addEventListener("keydown", function(event) {
            if (event.keyCode == 37) {
              event.preventDefault();
-            frogDir = 0;
+             frogDir = 0;
            if(xF > 10){
-            xF -= 29;
-            if(!isHome && !dead){
-            jump.play();
+              xF -= 29;
+           if(!isHome && !dead){
+             jump.play();
             }
            }
            }
@@ -102,35 +111,30 @@ function start_game(){
              event.preventDefault();
              frogDir = 1;
              if(yF > 60){
-              yF -= 36;
-              if(!isHome && !dead){
-            jump.play();
+               yF -= 36;
+             if(!isHome && !dead){
+               jump.play();
             }
-
              }
            }
           else if (event.keyCode == 39){
              frogDir = 2;
               event.preventDefault(); 
               if(xF < 350){
-              xF += 29;
+                xF += 29;
               if(!isHome && !dead){
-            jump.play();
+                 jump.play();
             }
-
-
               }
           }
            else if (event.keyCode == 40){
              frogDir = 3;
              event.preventDefault();
              if(yF < 490){
-             yF += 36;
+              yF += 36;
              if(!isHome && !dead){
-            jump.play();
+              jump.play();
             }
-
-
              }
                }
           }),1000/30);
