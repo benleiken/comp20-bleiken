@@ -111,7 +111,7 @@ function initialize() {
                 	                mvcObj = this;
 					stopId = this.stopId;
 				        var request = new XMLHttpRequest();
-					request.open("GET", "http://mbtamap-cedar.herokuapp.com/mapper/redline.json", true);
+					request.open("GET", "http://mbtamap.herokuapp.com/mapper/redline.json", true);
        					request.send(null);
 					request.onreadystatechange = function callback() {
         					if (request.readyState == 4 && request.status == 200) {
@@ -204,11 +204,8 @@ function cAndW (lat, lng){
 
 });
 
-									
 								}
-								
 
-							
 							   if(results[m].name == "Carmen Sandiego"){
 								carmen = new google.maps.LatLng(results[m].loc.latitude, results[m].loc.longitude);
 							        marker = new google.maps.Marker({
