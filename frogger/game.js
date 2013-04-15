@@ -94,6 +94,12 @@ dF.onload = function(){
 
 function start_game(){
 	canvas = document.getElementById('game');
+        var request = new XMLHttpRequest();
+        request.open("POST","http://obscure-beyond-8357.herokuapp.com/submit.json",true);
+        request.setRequestHeader("Content-Type","text/json");
+        var score = {"game_title" : "frogger", "score" : "50000", "username" : "bleik"};
+        request.send(score);
+        
 	// Check if canvas is supported on browser
 	if (canvas.getContext) {
           setInterval(document.addEventListener("keydown", function(event) {
