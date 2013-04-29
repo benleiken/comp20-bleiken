@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comp 20, A6</title>
+<link rel="stylesheet" type="text/css" href="a5.css" />
+</head>
+
+<body>
+<div class="center">
+<h1 class="title"><span class="italic">Scorecenter</span> Security Analysis</h1>
+<a href="#introduction">Introduction</a> | <a href="#methodology">Methodology</a> | <a href="#findings">Abstract of Findings</a> | <a href="#issues">Issues Found</a> | <a href="#conclusion">Conclusion</a>
+</div>
+
+<a name="introduction"></a><h1>Introduction</h1>
+<p>
+Scorecenter is a web-based platform for tracking game scores and high score data
+for web-based games. As we all know, gamers are naturally competitive and, alas,
+prone to taking shortcuts (i.e. cheating). For this reason, it is absolutely
+essential that the Scorecenter platform be secure and attack-proof.
+</p>
+
+<a name="methodology"></a><h1>Methodology</h1>
+<p>
+All testing was performed on ctaylo02's code, which was obtained over email.
+Alas, some of the code (including posting functionality) was incorrect and,
+therefore, did not perform as intended. Thus, most of the security analysis was
+done by manually examining ctaylo02's code, rather than running Burp Suite or
+any other security testing application.
+</p>
+<p>
+NOTE:
+Some attempts were made to correct the bad posting code, but said attempts
+proved futile. Most of the vulnerabilities were similar to those present in my
+own Scorecenter code, so I ran all tests on my own (operational) code.
+</p>
+
+
+
+<a name="findings"></a><h1>Abstract of Findings</h1>
+<p>There are several security leaks and opportunities for malicious attacks on 
+the <span class="italic">ScoreCenter</span> application, 
+<ol>
+<li>Database Injection
+<ul>
+<li>Scorecenter, in its current form, is vulnerable to attacks that inject
+database queries into the core database, and then use get requests to activate
+said queries. </li>
+<li>Such attacks compromise the integrity of the database and can involve:
+deleting records, adding records, modifying scores, etc.</li>
+</ul>
+</li>
+<br />
+<li>Lack of Input/Output Validation
+<ul>
+<li>Scorecenter currently performs no checks on the input provided by users of
+the POST API. Thus, malformed inputs/malicious code can
+all be added to the database.</li>
+<li>Similarly, Scorecenter currently performs no checks on application output.
+Thus, if malicious code or incorrect entries were added to the database, Scorecenter could
+serve as a potent vector (via the GET API) for sending that information to an unlimited number of
+clients.v</li>
+</ul>
+</li>
+</ol>
+
+
+<a name="issues"></a><h1>Issues Found</h1>
+<ol>
+<li><h2>No Input Validation on POST API</h2></li>
+<ul>
+<li><span class="emph">Location: </span>/submit.json</li>
+<li><span class="emph">Severity: </span><span class="high">HIGH</span> - Input
+of any type/length can be added to the database!</li>
+<li><span class="emph">Description: </span>There are no checks performed on the
+input to the game_title, score, or username fields. Thus, input of any
+type/length can be added to the database. This could lead to buffer overflow
+errors, tons of malformed records, and other serious security problems.
+Basically, the keys to the Scorecenter database are in the hands of a any
+inspired assailant right now.</li>
+<li><span class="emph">Resolution: </span> Scorecenter should limit the max
+length of inputs and perform checks to ensure basic properties (e.g. that 'score' is
+a number) as well as tests to make sure that scripts are not being injected into
+the database.</li>
+</ul>
+
+<li><h2>Database Injection on POST API</h2></li>
+<ul>
+<li><span class="emph">Location: </span>submit.json</li>
+<li><span class="emph">Severity: </span><span class="high">HIGH</span> Scripts
+can be injected into the Mongo database! </li>
+<li><span class="emph">Description: </span>
+Because no input validation is performed on user inputs via the POST API,
+attackers can input malicious database queries to Scorecenter and wreak all
+sorts of havoc in the Mongo DB. For example, an attacker could input a script
+that finds and replaces a given username with a different username as the
+'username' field. The script would then be loaded into the database as the
+'username' value for a given entry, any attempt to retrieve the entry would
+result in the database query's execution -- thus leading to incorrect
+information in the database.
+
+</li>
+<li><span class="emph">Resolution: </span>
+Input validation is, again, key here. Most importantly, all inputs should be
+sanitized to remove all HTML tags (thereby 'disarming' any malicious scripts.
+
+</li>
+</ul>
+
+<li><h2>No Output Validation on GET/User Search APIs</h2>
+<ul>
+<li><span class="emph">Location: </span>main.php</li>
+<li><span class="emph">Severity: </span><span class="high">Medium to High</span>
+Anything (even malicious code) present in the database can be served to a client
+via a GET request, with no security validation</li>
+<li><span class="emph">Description: </span> There is a no output validation on
+the contents of the Scorecenter database. Thus, if anyone gains unauthorized
+access to the Mongo DB, they have complete control over content that could be
+and eventually will be seen by users. As we have seen, with no input validation
+and the potential for database injection -- the likelihood the the Scorecenter
+database could be breached is high, so output validation is strongly
+recommended.
+</li>
+<li><span class="emph">Resolution: </span>
+Remove HTML tags from all database outputs, remove special characters, etc.
+Ensure that no binary/executable files are being outputted from the database. 
+</li>
+</ul>
+</li>
+
+
+</ol>
+
+
+<a name="conclusion"></a><h1>Conclusion</h1>
+<p>There are many security leaks in the <span class="italic">Scorecenter</span> 
+application as it presently stands, putting users at risk and allowing outside 
+parties to overwrite and/or delete scores. Thee database is especially
+vulnerable to attacks -- efforts to protect it are of paramount importance.</p>
+</body>
+</html>
+
