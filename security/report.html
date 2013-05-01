@@ -3,7 +3,6 @@
 <html>
 <head>
 <title>Comp 20, A6</title>
-<link rel="stylesheet" type="text/css" href="a5.css" />
 </head>
 
 <body>
@@ -78,6 +77,7 @@ type/length can be added to the database. This could lead to buffer overflow
 errors, tons of malformed records, and other serious security problems.
 Basically, the keys to the Scorecenter database are in the hands of a any
 inspired assailant right now.</li>
+<img src="1.tiff" style= "height: 600px; width: 800px" alt="screenshot" />
 <li><span class="emph">Resolution: </span> Scorecenter should limit the max
 length of inputs and perform checks to ensure basic properties (e.g. that 'score' is
 a number) as well as tests to make sure that scripts are not being injected into
@@ -99,10 +99,13 @@ that finds and replaces a given username with a different username as the
 result in the database query's execution -- thus leading to incorrect
 information in the database.
 
+<p>
+(NOTE: No Screenshot available because code did not run)
+</p>
 </li>
 <li><span class="emph">Resolution: </span>
 Input validation is, again, key here. Most importantly, all inputs should be
-sanitized to remove all HTML tags (thereby 'disarming' any malicious scripts.
+sanitized to remove all HTML tags (thereby 'disarming' any malicious scripts).
 
 </li>
 </ul>
@@ -121,6 +124,8 @@ and the potential for database injection -- the likelihood the the Scorecenter
 database could be breached is high, so output validation is strongly
 recommended.
 </li>
+<img src="2.tiff" style= "height: 600px; width: 800px" alt="screenshot" />
+
 <li><span class="emph">Resolution: </span>
 Remove HTML tags from all database outputs, remove special characters, etc.
 Ensure that no binary/executable files are being outputted from the database. 
@@ -135,7 +140,7 @@ Ensure that no binary/executable files are being outputted from the database.
 <a name="conclusion"></a><h1>Conclusion</h1>
 <p>There are many security leaks in the <span class="italic">Scorecenter</span> 
 application as it presently stands, putting users at risk and allowing outside 
-parties to overwrite and/or delete scores. Thee database is especially
+parties to overwrite and/or delete scores at will. The database is especially
 vulnerable to attacks -- efforts to protect it are of paramount importance.</p>
 </body>
 </html>
