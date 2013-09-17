@@ -92,19 +92,8 @@ dF.onload = function(){
   loaded = true;
 };
 
-var request = new XMLHttpRequest();
-request.open("POST", "http://localhost:3000/submit.json", true);
-request.setRequestHeader("Content-Type", "application/json");
-var score2 = {game_title: 'frogger', score: '12345',username: 'anonymous'};
-request.send(JSON.stringify(score2));
-
 function start_game(){
 	canvas = document.getElementById('game');
-        var request = new XMLHttpRequest();
-        request.open("POST","http://obscure-beyond-8357.herokuapp.com/submit.json",true);
-        request.setRequestHeader("Content-Type","text/json");
-        var score = {"game_title" : "frogger", "score" : "50000", "username" : "bleik"};
-        request.send(score);
         
 	// Check if canvas is supported on browser
 	if (canvas.getContext) {
